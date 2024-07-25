@@ -1,0 +1,5 @@
+jose; 8
+Antuan; 5
+Ramon; 2
+Paco; 9
+Luis; 5
