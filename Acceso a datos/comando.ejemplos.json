@@ -1,0 +1,72 @@
+Ruta raíz (mensaje de bienvenida)
+
+Método: GET
+URL: http://localhost:5000/
+
+Obtener todos los usuarios
+
+Método: GET
+URL: http://localhost:5000/usuarios
+No se requieren datos adicionales
+
+
+Obtener un usuario específico
+
+Método: GET
+URL: http://localhost:5000/usuarios/<id>
+Reemplaza <id> con el ID de un usuario existente
+Ejemplo: http://localhost:5000/usuarios/123e4567-e89b-12d3-a456-426614174000
+
+
+Crear un nuevo usuario
+
+Método: POST
+URL: http://localhost:5000/usuarios
+Body: raw, JSON
+Datos
+{
+    "nombre": "Juan Pérez",
+    "email": "juan@example.com"
+}
+
+Actualizar un usuario existente
+
+Método: PUT
+URL: http://localhost:5000/usuarios/<id>
+Reemplaza <id> con el ID del usuario a actualizar
+Body: raw, JSON
+Datos:
+
+{
+    "nombre": "Juan Pérez Actualizado",
+    "email": "juan.nuevo@example.com"
+}
+
+Eliminar un usuario
+
+Método: DELETE
+URL: http://localhost:5000/usuarios/<id>
+Reemplaza <id> con el ID del usuario a eliminar
+
+
+Búsqueda de usuarios por nombre
+
+Método: GET
+URL: http://localhost:5000/usuarios/buscar?nombre=<nombre>
+Reemplaza <nombre> con el término de búsqueda
+Ejemplo: http://localhost:5000/usuarios/buscar?nombre=Ana
+
+
+Añadir un amigo a un usuario
+
+Método: POST
+URL: http://localhost:5000/usuarios/<id>/amigos
+Reemplaza <id> con el ID del usuario al que se añadirá el amigo
+Body: raw, JSON
+Datos:
+
+    "amigo_id": "456e7890-e89b-12d3-a456-426614174000"
+}
+
+
+curl -X POST -H "Content-Type: application/json" -d '{"nombre":"David","apellidos":"Granados Zafra"}' localhost:5000/saludar2
