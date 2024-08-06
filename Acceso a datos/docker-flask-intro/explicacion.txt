@@ -1,0 +1,43 @@
+Esta es la explicación de los volumnesz y cómo se crea
+para iniiciarla la bbdd dentro de uno: 
+
+docker run --name mysql_eoi \
+           -e MYSQL_ROOT_PASSWORD=administrador \
+           -e MYSQL_DATABASE=eoi \
+           -p 3306:3306 \
+           -v mariadb_eoi_data:/var/lib/mysql \
+           -d mariadb
+Explicación del Comando
+docker run: Ejecuta un nuevo contenedor.
+
+--name mysql_eoi: Asigna el nombre mysql_eoi al contenedor.
+
+-e MYSQL_ROOT_PASSWORD=administrador: Establece la contraseña del usuario root en MariaDB como administrador.
+
+-e MYSQL_DATABASE=eoi: Crea una base de datos llamada eoi en el contenedor.
+
+-p 3306:3306: Mapea el puerto 3306 del contenedor al puerto 3306 en tu máquina local. Esto hace que el servicio MariaDB sea accesible en tu máquina local en el puerto 3306.
+
+-v mariadb_eoi_data:/var/lib/mysql: Usa un volumen llamado mariadb_eoi_data para almacenar los datos de la base de datos en el contenedor. Los datos de MariaDB se almacenarán en el directorio /var/lib/mysql del contenedor, y el volumen se asegura de que estos datos persistan incluso si el contenedor se detiene o se elimina.
+
+-d: Ejecuta el contenedor en segundo plano (modo "detached").
+
+mariadb: Es la imagen Docker que se usará para crear el contenedor. En este caso, se está utilizando la imagen oficial de MariaDB.
+
+Ejemplo Completo del Comando
+sh
+Copiar código
+docker run --name mysql_eoi \
+           -e MYSQL_ROOT_PASSWORD=administrador \
+           -e MYSQL_DATABASE=eoi \
+           -p 3306:3306 \
+           -v mariadb_eoi_data:/var/lib/mysql \
+           -d mariadb
+Este comando crea un contenedor de MariaDB con:
+
+Un nombre de contenedor mysql_eoi.
+La contraseña de root administrador.
+Una base de datos inicial llamada eoi.
+El puerto del contenedor 3306 expuesto en el puerto 3306 de tu máquina local.
+Un volumen persistente mariadb_eoi_data montado en /var/lib/mysql para asegurar que los datos se mantengan entre reinicios del contenedor.
+Asegúrate de tener Docker instalado y en funcionamiento en tu máquina antes de ejecutar este comando.

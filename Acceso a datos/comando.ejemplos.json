@@ -68,5 +68,6 @@ Datos:
     "amigo_id": "456e7890-e89b-12d3-a456-426614174000"
 }
 
+##Recuerda que esto primero lo tienes que levantar con el Flask ()
 
 curl -X POST -H "Content-Type: application/json" -d '{"nombre":"David","apellidos":"Granados Zafra"}' localhost:5000/saludar2
