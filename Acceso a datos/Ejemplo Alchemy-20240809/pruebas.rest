@@ -1,0 +1,46 @@
+### Clientes
+GET http://localhost:5000/clientes
+###
+POST http://localhost:5000/clientes
+Content-Type: application/json
+
+{
+    "nombre": "John",
+    "apellido": "Doe"
+}
+###
+GET http://localhost:5000/clientes/1
+###
+PUT http://localhost:5000/clientes/1
+Content-Type: application/json
+
+{
+    "nombre": "Jane",
+    "apellido": "Doe"
+}
+###
+DELETE http://localhost:5000/clientes/1
+
+### Reparaciones
+GET http://localhost:5000/reparaciones
+###
+POST http://localhost:5000/reparaciones
+Content-Type: application/json
+
+{
+    "descripcion": "Cambio de aceite",
+    "fecha": "2023-05-01",
+    "coste": 50.0,
+    "cliente_id": 1
+}
+
+### Facturas
+GET http://localhost:5000/facturas
+###
+POST http://localhost:5000/facturas
+Content-Type: application/json
+
+{
+    "fecha": "2023-05-15",
+    "reparacion_ids": [1]
+}
