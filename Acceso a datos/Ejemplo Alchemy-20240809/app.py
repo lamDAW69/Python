@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from logica_negocio import db, Cliente, Reparacion, Factura
-from sqlalchemy.orm.exc import NoResultFound
 from datetime import date
 
 app = Flask(__name__)
@@ -163,4 +162,6 @@ def facturas():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(debug=True)
+    app.run(host = '0.0.0.0' ,debug=True)
+
+    #Importante poner '0.0.0.0' para que sea visible desde el exterior y pueda atender peticiones desde cualquier servidor

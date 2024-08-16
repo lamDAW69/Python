@@ -1,3 +1,4 @@
+from datetime import date
 from flask import Flask, request, jsonify
 from abc import ABC, abstractmethod
 from logica_negocio import Cliente, VehiculoFactory, ServicioBase, ComponenteAdicional, Intervencion, Factura
@@ -197,4 +198,4 @@ register_routes(app, intervencion_controller, 'intervenciones')
 register_routes(app, factura_controller, 'facturas')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host = '0.0.0.0' ,debug=True)
