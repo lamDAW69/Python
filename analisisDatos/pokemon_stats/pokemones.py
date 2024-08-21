@@ -5,8 +5,10 @@ import pandas as pd
 from io import BytesIO
 import matplotlib.pyplot as plt
 
+NUM_POKEMONS = 10
 app = Flask(__name__)
 CORS(app)
+
 
 def obtener_datos_pokemon(pokemon_id):
     url = f"https://pokeapi.co/api/v2/pokemon/{pokemon_id}"
@@ -58,13 +60,23 @@ def generar_grafico_distribucion_tipos(distribucion_tipos):
     plt.close()
 
     return img
-@app.route('/pokemon/grafica', methods=["GET"])
-def obtener_grafico():
-    df = cargar_datos_pokemons(25)
-    analisis, distribucion_tipos = analizar_datos(df)
-    img = generar_grafico_distribucion_tipos(distribucion_tipos)
 
-    return send_file(img, mimetype="image/png")
+@app.route('/pokemon', methods=['GET'])
+def obtener_pokemon():
+  num_pokemons = int(request.args.get('num_pokemons', NUM_POKEMONS))
+  df = cargar_datos_pokemons(num_pokemons)
+  analisis, distribucion_tipos = analizar_datos(df)
+
+  return jsonify({"analisis": analisis})
+
+@app.route('/pokemon/grafica', methods=["GET"])
+def obtener_grafica_tipos():
+  num_pokemons = int(request.args.get('num_pokemons', NUM_POKEMONS))
+  df = cargar_datos_pokemons(num_pokemons)
+  analisis, distribucion_tipos = analizar_datos(df)
+  img = generar_grafico_distribucion_tipos(distribucion_tipos)
+
+  return send_file(img, mimetype="image/png")
 
 if __name__ == "__main__": 
     app.run(port=5000)
