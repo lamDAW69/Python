@@ -46,7 +46,7 @@ def analizar_datos(df):
 
 def generar_grafico_distribucion_tipos(distribucion_tipos):
     plt.figure(figsize=(10, 6))
-    ax = distribucion_tipos.plot(kind="bar", color="skyblue")
+    ax = distribucion_tipos.plot(kind="bar", color="red")
     plt.title("Distribución de tipos de pokemones")
     plt.xlabel("Tipo")
     plt.ylabel("Cantidad")
