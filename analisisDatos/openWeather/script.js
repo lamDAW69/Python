@@ -23,36 +23,35 @@ function obtener_grafica(ciudad) {
     document.getElementById("tiempo").innerHTML += 
     `<img src="${PYTHON_URL}/tiempo/grafica?ciudad=${ciudad}" class="img-fluid">`;
 }
-/*
+
 async function obtener_estadisticas(ciudad) {
-    let datos = await fetch (`${PYTHON_URL}/estadisticas?=ciudad=${ciudad}`);
+    let datos = await fetch (`${PYTHON_URL}/tiempo?=ciudad=${ciudad}`);
     datos = await datos.json();
-
-    document.getElementById("tiempo").innerHTML = `
-    <p>Media Temperatura: ${datos.media_temperatura}°C</p>
-    <p>Media Temperatura Máxima: ${datos.media_temperatura_max}°C</p>
-    <p>Media Temperatura Mínimi: ${datos.media_temperatura_min}°C</p>
-    <p>Media Humedad: ${datos.media_humedad}%</p>
-    <p>Media Velocidad del viento: ${datos.media_viento} m/s</p>
-º   <p>Media Presión: ${datos.media_presion} hPa</p>
-`;
+    console.log(datos);
+    
+    document.getElementById("tiempo").innerHTML += `
+    <p>Media Temperatura:${datos.media_temperatura.toFixed(2)}°C</p>
+    <p>Media Temperatura Máxima:${datos.maxima_temperatura}°C</p>
+    <p>Media Temperatura Mínimi:${datos.minima_temperatura}°C</p>
+    <p>Media Humedad:${datos.media_humedad}%</p>
+    <p>Media Velocidad del viento:${datos.media_viento.toFixed(2)} m/s</p>
+    <p>Media Presión:${datos.media_presion} hPa</p>
+    <p>Descripciones del clima:<p>
+    <ul>${datos.descripciones.join(`, `)}<ul>
+  `;
 }
-*/
-
-
-
 
 
 function inicializar() {
     const formulario = document.getElementById("formulario");
     const ciudad = document.getElementById("ciudad");
 
-    formulario.addEventListener('submit', async function(event) {
-        event.preventDefault();
-        await obtener_tiempo(ciudad.value);
-        obtener_grafica(ciudad.value);
-        //obtener_estadisticas(ciudad.value);
+    formulario.addEventListener('submit', async function(event) { // Se ejecuta cuando se envía el formulario, el async es para poder usar await y que no se recargue la página
+        event.preventDefault();                     // Evita que se recargue la página 
+        await obtener_tiempo(ciudad.value);         // Espera a que se obtenga el tiempo
+        obtener_grafica(ciudad.value);              // Obtiene la gráfica
+        obtener_estadisticas(ciudad.value);         // Obtiene las estadísticas
     });
-    obtener_tiempo(ciudad.value);
+    obtener_tiempo(ciudad.value);                   // Obtiene el tiempo al cargar la página
 }
 inicializar();

@@ -48,5 +48,32 @@ def obtener_grafica_tiempo():
     plt.close()
     return send_file(img, mimetype="image/png")
 
+@app.route('/tiempo', methods=['GET'])
+def obtener_tiempo_info(): 
+    ciudad = request.args.get('ciudad')
+    datos = obtener_datos_tiempo(ciudad)
+
+    temperaturas = [x['main']['temp'] for x in datos['list']] #La informacion viene de la solicitud a la api con la info de temperatura almacenada en 'main'
+    humedades = [x['main']['humidity'] for x in datos['list']] #La informacion viene de la solicitud a la api con la info de humedad almacenada en 'main'
+    presiones = [x['main']['pressure'] for x in datos['list']]
+    velocidad_viento = [x['wind']['speed'] for x in datos['list']]
+    descripciones = [x['weather'][0]['description'] for x in datos['list']]
+
+    df_temperaturas = pd.DataFrame(temperaturas, columns=['Temperatura'])
+    df_humedades = pd.DataFrame(humedades, columns=['Humedad'])
+    df_presiones = pd.DataFrame(presiones, columns=['Presion'])
+    df_velocidad_viento = pd.DataFrame(velocidad_viento, columns=['Velocidad del Viento'])
+
+    #Aqui se calculan las estadisticas con un diccionario
+    estadistica = {
+        "media_temperatura": df_temperaturas['Temperatura'].mean(),
+        "maxima_temperatura": df_temperaturas['Temperatura'].max(),
+        "minima_temperatura": df_temperaturas['Temperatura'].min(),
+        "media_humedad": df_humedades['Humedad'].mean(),
+        "media_presion": df_presiones['Presion'].mean(),
+        "media_viento": df_velocidad_viento['Velocidad del Viento'].mean(),
+        "descripciones": descripciones
+    }
+    return jsonify(estadistica)
 if __name__ == "__main__":
     app.run(port=5000)
