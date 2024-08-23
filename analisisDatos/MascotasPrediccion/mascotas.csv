@@ -1,0 +1,165 @@
+caracteristicas,mascota
+
+"grande,pelaje corto,activo","Perro"
+
+"pequeño,pelaje corto,juguetón","Gato"
+
+"mediano,pelaje largo,tranquilo","Conejo"
+
+"grande,pelaje largo,guardia","Perro"
+
+"pequeño,pelaje largo,dormilón","Gato"
+
+"pequeño,pelaje corto,tranquilo","Hámster"
+
+"mediano,pelaje corto,activo","Hurón"
+
+"pequeño,pelaje largo,activo","Conejo"
+
+"grande,pelaje corto,tranquilo","Perro"
+
+"pequeño,pelaje largo,juguetón","Gato"
+
+"grande,pelaje corto,activo","Perro"
+
+"pequeño,pelaje corto,juguetón","Gato"
+
+"mediano,pelaje largo,tranquilo","Conejo"
+
+"pequeño,pelaje corto,curioso","Hámster"
+
+"pequeño,escamas,tranquilo","Pez"
+
+"mediano,plumas,activo","Loro"
+
+"grande,plumas,independiente","Águila"
+
+"pequeño,plumas,juguetón","Periquito"
+
+"grande,pelaje corto,protector","Perro"
+
+"pequeño,plumas,curioso","Canario"
+
+"mediano,pelaje largo,juguetón","Cobaya"
+
+"pequeño,pelaje corto,explorador","Ratón"
+
+"mediano,pelaje largo,tranquilo","Chinchilla"
+
+"pequeño,plumas,sociable","Periquito"
+
+"mediano,plumas,tranquilo","Loro"
+
+"grande,escamas,tranquilo","Tortuga"
+
+"pequeño,escamas,juguetón","Lagartija"
+
+"mediano,escamas,activo","Iguana"
+
+"pequeño,pelaje largo,curioso","Conejo"
+
+"mediano,plumas,relajado","Cacatúa"
+
+"pequeño,plumas,activo","Gorrión"
+
+"grande,pelaje corto,explorador","Perro"
+
+"mediano,escamas,independiente","Serpiente"
+
+"pequeño,plumas,protector","Canario"
+
+"pequeño,plumas,explorador","Periquito"
+
+"grande,pelaje largo,tranquilo","Gato"
+
+"mediano,plumas,fiel","Cotorra"
+
+"pequeño,pelaje corto,independiente","Gato"
+
+"grande,plumas,protector","Águila"
+
+"mediano,escamas,tranquilo","Tortuga"
+
+"pequeño,plumas,juguetón","Canario"
+
+"pequeño,escamas,activo","Pez"
+
+"mediano,pelaje corto,entrenable","Hurón"
+
+"pequeño,escamas,tranquilo","Lagartija"
+
+"mediano,plumas,protector","Cacatúa"
+
+"pequeño,pelaje largo,cariñoso","Cobaya"
+
+"grande,pelaje corto,activo","Perro"
+
+"pequeño,escamas,juguetón","Iguana"
+
+"mediano,pelaje corto,curioso","Hurón"
+
+"pequeño,plumas,sociable","Periquito"
+
+"mediano,plumas,fiel","Loro"
+
+"pequeño,escamas,protector","Serpiente"
+
+"grande,pelaje corto,activo","Perro"
+
+"pequeño,pelaje corto,juguetón","Gato"
+
+"mediano,pelaje largo,tranquilo","Conejo"
+
+"grande,pelaje largo,guardia","Perro"
+
+"pequeño,pelaje largo,dormilón","Gato"
+
+"pequeño,pelaje corto,tranquilo","Hámster"
+
+"mediano,pelaje corto,activo","Hurón"
+
+"pequeño,pelaje largo,activo","Conejo"
+
+"grande,pelaje corto,tranquilo","Perro"
+
+"pequeño,pelaje largo,juguetón","Gato"
+
+"mediano,pelaje corto,curioso","Hurón"
+
+"grande,pelaje corto,guardia","Perro"
+
+"pequeño,pelaje corto,juguetón","Gato"
+
+"mediano,pelaje largo,relajado","Conejo"
+
+"grande,pelaje largo,protector","Perro"
+
+"pequeño,pelaje corto,independiente","Gato"
+
+"mediano,pelaje corto,explorador","Hurón"
+
+"grande,pelaje corto,fiel","Perro"
+
+"pequeño,pelaje largo,curioso","Gato"
+
+"mediano,pelaje corto,juguetón","Conejo"
+
+"pequeño,pelaje corto,curioso","Hámster"
+
+"mediano,pelaje corto,entrenable","Hurón"
+
+"grande,pelaje largo,tranquilo","Perro"
+
+"pequeño,pelaje largo,cariñoso","Gato"
+import csv
+
+# Open the CSV file
+with open('/c:/Users/Luis/Documents/Curso Python/Python/analisisDatos/MascotasPrediccion/mascotar.csv', 'r') as file:
+    # Read the contents of the file
+    csv_data = file.read()
+
+# Remove the line breaks from the CSV data
+csv_data = csv_data.replace('\n', '')
+
+# Print the modified CSV data
+print(csv_data)
