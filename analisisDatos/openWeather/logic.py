@@ -7,8 +7,8 @@ import pandas as pd
 from datetime import datetime
 import matplotlib.pyplot as plt
 
-API_KEY = "1fe9ecd1d45d76ff5ae46294e85557e3"
-URL_BASE = f"https://api.openweathermap.org/data/2.5/forecast?lang=es&units=metric&appid={API_KEY}"
+
+URL_BASE = f"https://api.openweathermap.org/data/2.5/forecast?lang=es&units=metric&appid=1fe9ecd1d45d76ff5ae46294e85557e3"
 
 
 app = Flask(__name__)
