@@ -1,18 +1,25 @@
-import pandas as pd 
+import pandas as pd
 
+# Cargar los datos desde el archivo CSV
+df = pd.read_csv('data.csv')
 
-#cargar los datos del modelo csv
+# Verificar algunas entradas de la columna period_en para identificar problemas
+print(df['period_en'].head(10))
 
-df = pd.read_csv('data.csv') 
+# Intentar convertir la columna period_en a datetime con errores coerce
+df['period_en'] = pd.to_datetime(df['period_en'], errors='coerce')
 
-#necesito transformar la columna de period_end a datetime
-df['period_end'] = pd.to_datetime(df['period_end'])
-print(df.head())
+# Eliminar filas con valores NaT en period_en
+df = df.dropna(subset=['period_en'])
 
-#Agregar datos a Intervalos diarios para simplificar los datos de GHI a intervalos diarios
+# Establecer period_en como índice
+df.set_index('period_en', inplace=True)
 
-df_daily = df.resample('D', on='period_end').mean()
-#Rellenar los Valores nan con 0 si es necesario 
+# Agrupar los datos en intervalos diarios y calcular la media de GHI
+df_daily = df.resample('D').agg({'ghi': 'mean'}) # GHI: Global Horizontal Irradiance
+
+# Rellenar valores NaN con 0 si es necesario
 df_daily.fillna(0, inplace=True)
-#Verificar los primeros registros diarios 
+
+# Verificar los primeros registros diarios
 print(df_daily.head())
