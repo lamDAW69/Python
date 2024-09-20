@@ -122,4 +122,3 @@ cbar.set_ticklabels(['VER', 'HAM'])  # Labels for the two ticks
 plt.savefig(f"2021_ver_ham_q.png", dpi=300)
 plt.show()
 
-print(telemetry)
