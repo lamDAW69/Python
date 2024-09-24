@@ -9,32 +9,26 @@ import pandas as pd
 from matplotlib.colors import ListedColormap
 
 
-num_minisector = 25
+def enable_cache(cache_path='../cache'):
+    """Enable FastF1 cache"""
+    ff1.Cache.enable_cache(cache_path)
 
-def get_data_session(year, circuit, session_type): 
-
-    #SetUpPlotting 
+def setup_plot():
+    """Setup the plot style using FastF1's defaults"""
     plotting.setup_mpl()
-    session = ff1.get_session(year, circuit, session_type)
 
+def load_session(year, location, session_type):
+    """Load the session data"""
+    session = ff1.get_session(year, location, session_type)
     session.load(laps=True, telemetry=True)
     return session
 
-def get_drivers_laps(session, driver1, driver2): 
-    
-    laps_driver1 = session.laps.pick_driver(driver1)
-    laps_driver2 = session.laps.pick_driver(driver2)
-
-    fastest_lap_driver1 = laps_driver1.pick_fastest().get_telemetry().add_distance()
-    fastest_lap_driver2 = laps_driver2.pick_fastest().get_telemetry().add_distance()
-
-    #Add driver labels
-    fastest_lap_driver1['Driver'] = driver1
-    fastest_lap_driver2['Driver'] = driver2
-
-    #Merge Both Lap Telemetry DataFrames
-    telemetry = pd.concat([fastest_lap_driver1, fastest_lap_driver2], ignore_index=True)
-    return telemetry
+def get_fastest_lap_telemetry(session, driver_code):
+    """Get the fastest lap telemetry for a driver"""
+    laps = session.laps.pick_driver(driver_code)
+    fastest_lap = laps.pick_fastest().get_telemetry().add_distance()
+    fastest_lap['Driver'] = driver_code
+    return fastest_lap
 
 def get_minisector(telemetry): 
     #Grab the maximu value of distance that is known in the telemetry
@@ -53,3 +47,23 @@ def get_minisector(telemetry):
             int((dist // minisector_length) + 1)
         )
     )
+
+    # Calculate avg. speed per driver per mini sector
+    average_speed = telemetry.groupby(['Minisector', 'Driver'])['Speed'].mean().reset_index()
+
+    #Select the driever with highest average speed 
+    fastest_driver = average_speed.loc[average_speed.groupby('Minisector')['Speed'].idxmax()]
+
+    #Ger rid of the speed column and rename the driver column 
+
+    fastest_driver = fastest_driver[['Minisector', 'Driver']].rename(columns={'Driver': 'Fastest_driver'})
+    
+    telemetry = telemetry.merge(fastest_driver, on='Minisector')
+    
+    #Order the data by distance to make matplot not confused
+
+    telemetry = telemetry.sort_values('Distance')
+    
+    #Convert Driver name to integer
+    telemetry.loc[telemetry['Driver'] == 'VER', 'Driver'] = 1
+    telemetry.loc[telemetry['Driver'] == 'HAM', 'Driver'] = 2
