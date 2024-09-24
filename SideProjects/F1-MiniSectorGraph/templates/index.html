@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Fastest Lap Comparison</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <!--<link rel='stylesheet' type='text/css' media='screen' href='main.css'> -->
+    <script src='main.js' defer></script>
+</head>
+<body>
+    <h1>Fastest Lap Comparison</h1>
+
+    <form id="lap-form" onsubmit="event.preventDefault(); fetchLapComparison();">
+        <label for="year">Year:</label>
+        <input type="number" id="year" name="year" required> <br>
+
+        <label for="circuits">Circuit:</label>
+        <input type="text" id="circuits" name="circuit" required> <br>
+
+        <label for="session">Session:</label>
+        <select id="session" name="session">
+            <option value="FP1">Práctica 1</option>
+            <option value="FP2">Práctica 2</option>
+            <option value="FP3">Práctica 3</option>
+            <option value="Q">Clasificación</option>
+            <option value="R">Carrera</option>
+        </select> <br>
+
+        <label for="driver1">Driver 1:</label>
+        <select id="driver1" name="driver1">
+            <option value="HAM">HAM (Lewis Hamilton)</option>
+            <option value="VER">VER (Max Verstappen)</option>
+            <option value="BOT">BOT (Valtteri Bottas)</option>
+            <option value="LEC">LEC (Charles Leclerc)</option>
+            <option value="VET">VET (Sebastian Vettel)</option>
+            <option value="PER">PER (Sergio Perez)</option>
+            <option value="RIC">RIC (Daniel Ricciardo)</option>
+            <option value="NOR">NOR (Lando Norris)</option>
+            <option value="SAI">SAI (Carlos Sainz)</option>
+            <option value="GAS">GAS (Pierre Gasly)</option>
+            <option value="OCO">OCO (Esteban Ocon)</option>
+            <option value="ALO">ALO (Fernando Alonso)</option>
+            <option value="STR">STR (Lance Stroll)</option>
+            <option value="TSU">TSU (Yuki Tsunoda)</option>
+            <option value="RUS">RUS (George Russell)</option>
+            <option value="LAT">LAT (Nicholas Latifi)</option>
+            <option value="MSC">MSC (Mick Schumacher)</option>
+            <option value="MAZ">MAZ (Nikita Mazepin)</option>
+            <option value="ALB">ALB (Alexander Albon)</option>
+            <option value="KUB">KUB (Robert Kubica)</option>
+            <option value="HUL">HUL (Nico Hulkenberg)</option>
+            <option value="GIO">GIO (Antonio Giovinazzi)</option>
+            <option value="KVY">KVY (Daniil Kvyat)</option>
+            <option value="MAG">MAG (Kevin Magnussen)</option>
+            <option value="RAI">RAI (Kimi Raikkonen)</option>
+        </select> <br>
+
+        <label for="driver2">Driver 2:</label>
+        <select id="driver2" name="driver2">
+            <option value="HAM">HAM (Lewis Hamilton)</option>
+            <option value="VER">VER (Max Verstappen)</option>
+            <option value="BOT">BOT (Valtteri Bottas)</option>
+            <option value="LEC">LEC (Charles Leclerc)</option>
+            <option value="VET">VET (Sebastian Vettel)</option>
+            <option value="PER">PER (Sergio Perez)</option>
+            <option value="RIC">RIC (Daniel Ricciardo)</option>
+            <option value="NOR">NOR (Lando Norris)</option>
+            <option value="SAI">SAI (Carlos Sainz)</option>
+            <option value="GAS">GAS (Pierre Gasly)</option>
+            <option value="OCO">OCO (Esteban Ocon)</option>
+            <option value="ALO">ALO (Fernando Alonso)</option>
+            <option value="STR">STR (Lance Stroll)</option>
+            <option value="TSU">TSU (Yuki Tsunoda)</option>
+            <option value="RUS">RUS (George Russell)</option>
+            <option value="LAT">LAT (Nicholas Latifi)</option>
+            <option value="MSC">MSC (Mick Schumacher)</option>
+            <option value="MAZ">MAZ (Nikita Mazepin)</option>
+            <option value="ALB">ALB (Alexander Albon)</option>
+            <option value="KUB">KUB (Robert Kubica)</option>
+            <option value="HUL">HUL (Nico Hulkenberg)</option>
+            <option value="GIO">GIO (Antonio Giovinazzi)</option>
+            <option value="KVY">KVY (Daniil Kvyat)</option>
+            <option value="MAG">MAG (Kevin Magnussen)</option>
+            <option value="RAI">RAI (Kimi Raikkonen)</option>
+        </select>
+
+        <button type="submit">Submit</button>
+
+        <!-- Image contender -->
+        <div id="result">
+            <h2>Comparison Result</h2>
+            <img id="lap-image" src="" alt="Fastest Lap Comparison" style="display:none;">
+        </div>
+    </form>
+</body>
+</html>
