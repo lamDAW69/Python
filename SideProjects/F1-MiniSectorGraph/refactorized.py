@@ -30,40 +30,103 @@ def get_fastest_lap_telemetry(session, driver_code):
     fastest_lap['Driver'] = driver_code
     return fastest_lap
 
-def get_minisector(telemetry): 
-    #Grab the maximu value of distance that is known in the telemetry
-    total_distance = total_distance (max(telemetry['Distance']))
-    minisector_length = total_distance / num_minisector
+def calculate_minisectors(telemetry, num_minisector=25):
+    """Calculate minisectors for telemetry data"""
+    total_distance = telemetry['Distance'].max()  # Calculate total lap distance
+    minisector_length = total_distance / num_minisector  # Length of each minisector
 
-    #initiate minisector variable, with 0 meters as a starting point
-    minisectors = [0]
-
-    #Add multiples of the minisector length to the minisector list
-    for x in range(0, (num_minisector - 1)):
-        minisectors.append(minisector_length * (x + 1))
-
+    # Assign minisectors to the telemetry data
     telemetry['Minisector'] = telemetry['Distance'].apply(
-        lambda dist: (
-            int((dist // minisector_length) + 1)
-        )
+        lambda dist: int((dist // minisector_length) + 1)
     )
+    return telemetry
 
-    # Calculate avg. speed per driver per mini sector
+def determine_fastest_driver(telemetry):
+    """Determine the fastest driver per minisector dynamically and convert driver names to integers"""
+    # Calculate average speed per driver and minisector
     average_speed = telemetry.groupby(['Minisector', 'Driver'])['Speed'].mean().reset_index()
 
-    #Select the driever with highest average speed 
+    # Select the driver with the highest average speed in each minisector
     fastest_driver = average_speed.loc[average_speed.groupby('Minisector')['Speed'].idxmax()]
 
-    #Ger rid of the speed column and rename the driver column 
-
+    # Clean up columns
     fastest_driver = fastest_driver[['Minisector', 'Driver']].rename(columns={'Driver': 'Fastest_driver'})
-    
-    telemetry = telemetry.merge(fastest_driver, on='Minisector')
-    
-    #Order the data by distance to make matplot not confused
 
-    telemetry = telemetry.sort_values('Distance')
+    # Merge with telemetry data
+    telemetry = telemetry.merge(fastest_driver, on='Minisector')
+
+    # Create a dynamic mapping of driver names to integers
+    driver_mapping = {driver: idx + 1 for idx, driver in enumerate(telemetry['Fastest_driver'].unique())}
+
+    # Apply the mapping to convert driver names to integers
+    telemetry['Fastest_driver_int'] = telemetry['Fastest_driver'].map(driver_mapping)
+
+    return telemetry, driver_mapping
+
+
+def plot_fastest_lap_comparison(telemetry, session, driver_mapping, output_file='fastest_lap_comparison.png'):
+    """Plot the comparison of fastest laps between drivers"""
+    # Generate 'x' and 'y' coordinates from telemetry data
+    x = np.array(telemetry['X'].values)
+    y = np.array(telemetry['Y'].values)
+
+    # Create segments for the line collection
+    points = np.array([x, y]).T.reshape(-1, 1, 2)
+    segments = np.concatenate([points[:-1], points[1:]], axis=1)
+
+    # Fastest driver array
+    fastest_driver_array = telemetry['Fastest_driver_int'].to_numpy().astype(float)
+
+    # Define colormap dynamically based on the number of drivers
+    cmap = ListedColormap(['red', 'white'])  # Adjust colors if needed
+
+    # Create the line collection for the plot
+    lc_comp = LineCollection(segments, norm=plt.Normalize(1, cmap.N + 1), cmap=cmap)
+    lc_comp.set_array(fastest_driver_array)
+    lc_comp.set_linewidth(5)
+
+    # Plot settings
+    plt.rcParams['figure.figsize'] = [18, 10]
+    plt.gca().add_collection(lc_comp)
+    plt.axis('equal')
+    plt.tick_params(labelleft=False, left=False, labelbottom=False, bottom=False)
+    plt.title(f'Comparison of the fastest laps in the {session.event["EventName"]} of {session.event["EventDate"].year}')
+
+    # Create the color bar
+    cbar = plt.colorbar(mappable=lc_comp, boundaries=[1, 2, 3])
     
-    #Convert Driver name to integer
-    telemetry.loc[telemetry['Driver'] == 'VER', 'Driver'] = 1
-    telemetry.loc[telemetry['Driver'] == 'HAM', 'Driver'] = 2
+    # Set ticks dynamically based on driver mapping
+    driver_labels = [name for name, idx in driver_mapping.items()]
+    cbar.set_ticks([1.5, 2.5])  # Adjust ticks based on the number of drivers
+    cbar.set_ticklabels(driver_labels)  # Dynamic labels based on the drivers
+
+    # Save and show the graph
+    plt.savefig(output_file, dpi=300)
+    plt.show()
+
+def main():
+    # Enable cache and setup plot
+    # enable_cache()  # Uncomment if you want to enable caching
+    setup_plot()
+
+    # Load session data
+    session = load_session(2021, 'Abu Dhabi', 'Q')
+
+    # Get telemetry for both drivers
+    telemetry_ver = get_fastest_lap_telemetry(session, 'VER')
+    telemetry_ham = get_fastest_lap_telemetry(session, 'HAM')
+
+    # Merge telemetry data
+    telemetry = pd.concat([telemetry_ver, telemetry_ham], ignore_index=True)
+
+    # Calculate minisectors
+    telemetry = calculate_minisectors(telemetry)
+
+    # Determine the fastest driver per minisector dynamically
+    telemetry, driver_mapping = determine_fastest_driver(telemetry)
+
+    # Plot and compare the laps
+    plot_fastest_lap_comparison(telemetry, session, driver_mapping, output_file='2021_ver_ham_q.png')
+
+if __name__ == "__main__":
+    main()
