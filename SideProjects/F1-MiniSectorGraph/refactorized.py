@@ -110,14 +110,14 @@ def main():
     setup_plot()
 
     # Load session data
-    session = load_session(2021, 'Abu Dhabi', 'Q')
+    session = load_session(2021, 'Monaco', 'Q')
 
     # Get telemetry for both drivers
-    telemetry_ver = get_fastest_lap_telemetry(session, 'VER')
-    telemetry_ham = get_fastest_lap_telemetry(session, 'HAM')
+    telemetry_driver1 = get_fastest_lap_telemetry(session, 'ALO')
+    telemetry_driver2 = get_fastest_lap_telemetry(session, 'OCO')
 
     # Merge telemetry data
-    telemetry = pd.concat([telemetry_ver, telemetry_ham], ignore_index=True)
+    telemetry = pd.concat([telemetry_driver1, telemetry_driver2], ignore_index=True)
 
     # Calculate minisectors
     telemetry = calculate_minisectors(telemetry)
