@@ -16,7 +16,7 @@ async function obtenerGrafica(year, circuit, session, driver1, driver2) {
         
         // Crea un URL de objeto para el blob
         const imgUrl = URL.createObjectURL(blob);
-        
+        //Aún no no funciona la visualización de la imagen, creo que el problema es dónde se guarda la imagen
         // Establece la URL de la imagen en el elemento img
         const imgElement = document.getElementById("lap-image");
         imgElement.src = imgUrl; 
