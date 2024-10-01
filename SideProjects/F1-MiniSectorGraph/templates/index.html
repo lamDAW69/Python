@@ -1,97 +1,184 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Fastest Lap Comparison</title>
+    <title>Comparación de Vueltas Rápidas F1</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <!--<link rel='stylesheet' type='text/css' media='screen' href='main.css'> -->
     <script src='main.js' defer></script>
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: #15151e;
+            color: #ffffff;
+            line-height: 1.6;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #e10600;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .form-container {
+            flex: 1;
+            min-width: 300px;
+        }
+        form {
+            background-color: #1f1f2e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #f2f2f2;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #333;
+            background-color: #2c2c3a;
+            color: #fff;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #e10600;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #ff0000;
+        }
+        .results-container {
+            flex: 2;
+            min-width: 300px;
+        }
+        #lap-image-container {
+            margin-top: 30px;
+            text-align: center;
+        }
+        #lap-image {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255,255,255,0.1);
+        }
+        #lap-times {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #cccccc;
+        }
+    </style>
 </head>
 <body>
-    <h1>Fastest Lap Comparison</h1>
+    <div class="container">
+        <h1>Comparación de Vueltas Rápidas F1</h1>
 
-    <form id="lap-form" onsubmit="event.preventDefault(); fetchLapComparison();">
-        <label for="year">Year:</label>
-        <input type="number" id="year" name="year" required> <br>
+        <div class="content">
+            <div class="form-container">
+                <form id="lap-form">
+                    <label for="year">Año:</label>
+                    <input type="number" id="year" name="year" required>
 
-        <label for="circuits">Circuit:</label>
-        <input type="text" id="circuits" name="circuit" required> <br>
+                    <label for="circuits">Circuito:</label>
+                    <input type="text" id="circuits" name="circuit" required>
 
-        <label for="session">Session:</label>
-        <select id="session" name="session">
-            <option value="FP1">Práctica 1</option>
-            <option value="FP2">Práctica 2</option>
-            <option value="FP3">Práctica 3</option>
-            <option value="Q">Clasificación</option>
-            <option value="R">Carrera</option>
-        </select> <br>
+                    <label for="session">Sesión:</label>
+                    <select id="session" name="session">
+                        <option value="FP1">Práctica 1</option>
+                        <option value="FP2">Práctica 2</option>
+                        <option value="FP3">Práctica 3</option>
+                        <option value="Q">Clasificación</option>
+                        <option value="R">Carrera</option>
+                    </select>
 
-        <label for="driver1">Driver 1:</label>
-        <select id="driver1" name="driver1">
-            <option value="HAM">HAM (Lewis Hamilton)</option>
-            <option value="VER">VER (Max Verstappen)</option>
-            <option value="BOT">BOT (Valtteri Bottas)</option>
-            <option value="LEC">LEC (Charles Leclerc)</option>
-            <option value="VET">VET (Sebastian Vettel)</option>
-            <option value="PER">PER (Sergio Perez)</option>
-            <option value="RIC">RIC (Daniel Ricciardo)</option>
-            <option value="NOR">NOR (Lando Norris)</option>
-            <option value="SAI">SAI (Carlos Sainz)</option>
-            <option value="GAS">GAS (Pierre Gasly)</option>
-            <option value="OCO">OCO (Esteban Ocon)</option>
-            <option value="ALO">ALO (Fernando Alonso)</option>
-            <option value="STR">STR (Lance Stroll)</option>
-            <option value="TSU">TSU (Yuki Tsunoda)</option>
-            <option value="RUS">RUS (George Russell)</option>
-            <option value="LAT">LAT (Nicholas Latifi)</option>
-            <option value="MSC">MSC (Mick Schumacher)</option>
-            <option value="MAZ">MAZ (Nikita Mazepin)</option>
-            <option value="ALB">ALB (Alexander Albon)</option>
-            <option value="KUB">KUB (Robert Kubica)</option>
-            <option value="HUL">HUL (Nico Hulkenberg)</option>
-            <option value="GIO">GIO (Antonio Giovinazzi)</option>
-            <option value="KVY">KVY (Daniil Kvyat)</option>
-            <option value="MAG">MAG (Kevin Magnussen)</option>
-            <option value="RAI">RAI (Kimi Raikkonen)</option>
-        </select> <br>
+                    <label for="driver1">Piloto 1:</label>
+                    <select id="driver1" name="driver1">
+                        <option value="HAM">HAM (Lewis Hamilton)</option>
+                        <option value="VER">VER (Max Verstappen)</option>
+                        <option value="BOT">BOT (Valtteri Bottas)</option>
+                        <option value="LEC">LEC (Charles Leclerc)</option>
+                        <option value="VET">VET (Sebastian Vettel)</option>
+                        <option value="PER">PER (Sergio Perez)</option>
+                        <option value="RIC">RIC (Daniel Ricciardo)</option>
+                        <option value="NOR">NOR (Lando Norris)</option>
+                        <option value="SAI">SAI (Carlos Sainz)</option>
+                        <option value="GAS">GAS (Pierre Gasly)</option>
+                        <option value="OCO">OCO (Esteban Ocon)</option>
+                        <option value="ALO">ALO (Fernando Alonso)</option>
+                        <option value="STR">STR (Lance Stroll)</option>
+                        <option value="TSU">TSU (Yuki Tsunoda)</option>
+                        <option value="RUS">RUS (George Russell)</option>
+                        <option value="LAT">LAT (Nicholas Latifi)</option>
+                        <option value="MSC">MSC (Mick Schumacher)</option>
+                        <option value="MAZ">MAZ (Nikita Mazepin)</option>
+                        <option value="ALB">ALB (Alexander Albon)</option>
+                        <option value="KUB">KUB (Robert Kubica)</option>
+                        <option value="HUL">HUL (Nico Hulkenberg)</option>
+                        <option value="GIO">GIO (Antonio Giovinazzi)</option>
+                        <option value="KVY">KVY (Daniil Kvyat)</option>
+                        <option value="MAG">MAG (Kevin Magnussen)</option>
+                        <option value="RAI">RAI (Kimi Raikkonen)</option>
+                    </select>
 
-        <label for="driver2">Driver 2:</label>
-        <select id="driver2" name="driver2">
-            <option value="HAM">HAM (Lewis Hamilton)</option>
-            <option value="VER">VER (Max Verstappen)</option>
-            <option value="BOT">BOT (Valtteri Bottas)</option>
-            <option value="LEC">LEC (Charles Leclerc)</option>
-            <option value="VET">VET (Sebastian Vettel)</option>
-            <option value="PER">PER (Sergio Perez)</option>
-            <option value="RIC">RIC (Daniel Ricciardo)</option>
-            <option value="NOR">NOR (Lando Norris)</option>
-            <option value="SAI">SAI (Carlos Sainz)</option>
-            <option value="GAS">GAS (Pierre Gasly)</option>
-            <option value="OCO">OCO (Esteban Ocon)</option>
-            <option value="ALO">ALO (Fernando Alonso)</option>
-            <option value="STR">STR (Lance Stroll)</option>
-            <option value="TSU">TSU (Yuki Tsunoda)</option>
-            <option value="RUS">RUS (George Russell)</option>
-            <option value="LAT">LAT (Nicholas Latifi)</option>
-            <option value="MSC">MSC (Mick Schumacher)</option>
-            <option value="MAZ">MAZ (Nikita Mazepin)</option>
-            <option value="ALB">ALB (Alexander Albon)</option>
-            <option value="KUB">KUB (Robert Kubica)</option>
-            <option value="HUL">HUL (Nico Hulkenberg)</option>
-            <option value="GIO">GIO (Antonio Giovinazzi)</option>
-            <option value="KVY">KVY (Daniil Kvyat)</option>
-            <option value="MAG">MAG (Kevin Magnussen)</option>
-            <option value="RAI">RAI (Kimi Raikkonen)</option>
-        </select>
+                    <label for="driver2">Piloto 2:</label>
+                    <select id="driver2" name="driver2">
+                        <option value="HAM">HAM (Lewis Hamilton)</option>
+                        <option value="VER">VER (Max Verstappen)</option>
+                        <option value="BOT">BOT (Valtteri Bottas)</option>
+                        <option value="LEC">LEC (Charles Leclerc)</option>
+                        <option value="VET">VET (Sebastian Vettel)</option>
+                        <option value="PER">PER (Sergio Perez)</option>
+                        <option value="RIC">RIC (Daniel Ricciardo)</option>
+                        <option value="NOR">NOR (Lando Norris)</option>
+                        <option value="SAI">SAI (Carlos Sainz)</option>
+                        <option value="GAS">GAS (Pierre Gasly)</option>
+                        <option value="OCO">OCO (Esteban Ocon)</option>
+                        <option value="ALO">ALO (Fernando Alonso)</option>
+                        <option value="STR">STR (Lance Stroll)</option>
+                        <option value="TSU">TSU (Yuki Tsunoda)</option>
+                        <option value="RUS">RUS (George Russell)</option>
+                        <option value="LAT">LAT (Nicholas Latifi)</option>
+                        <option value="MSC">MSC (Mick Schumacher)</option>
+                        <option value="MAZ">MAZ (Nikita Mazepin)</option>
+                        <option value="ALB">ALB (Alexander Albon)</option>
+                        <option value="KUB">KUB (Robert Kubica)</option>
+                        <option value="HUL">HUL (Nico Hulkenberg)</option>
+                        <option value="GIO">GIO (Antonio Giovinazzi)</option>
+                        <option value="KVY">KVY (Daniil Kvyat)</option>
+                        <option value="MAG">MAG (Kevin Magnussen)</option>
+                        <option value="RAI">RAI (Kimi Raikkonen)</option>
+                    </select>
 
-        <button type="submit">Submit</button>
+                    <button type="submit">Comparar</button>
+                </form>
+            </div>
 
-        <!-- Image contender -->
-        <div id="result">
-            <h2>Comparison Result</h2>
-            <img id="lap-image" src="" alt="Fastest Lap Comparison" style="display:none;">
+            <div class="results-container">
+                <div id="lap-image-container">
+                    <h2>Resultado de la Comparación</h2>
+                    <img id="lap-image" src="" alt="Comparación de Vueltas Rápidas">
+                </div>
+                <div id="lap-times"></div>
+            </div>
         </div>
-    </form>
+    </div>
 </body>
 </html>

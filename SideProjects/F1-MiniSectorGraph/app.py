@@ -85,29 +85,26 @@ def plot_fastest_lap_comparison(telemetry, session, driver_mapping):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if request.method == 'POST':
-        year = int(request.form['year'])
-        circuit = request.form['circuit']
-        session_type = request.form['session']
-        driver1 = request.form['driver1']
-        driver2 = request.form['driver2']
+    if request.method == 'POST' or request.method == 'GET':
+        # Usar request.values para manejar tanto POST como GET
+        year = int(request.values.get('year'))
+        circuit = request.values.get('circuit')
+        session_type = request.values.get('session')
+        driver1 = request.values.get('driver1')
+        driver2 = request.values.get('driver2')
 
-        # Setup and load session data
+        # Verificar si todos los parámetros necesarios están presentes
+        if not all([year, circuit, session_type, driver1, driver2]):
+            return "Faltan parámetros requeridos", 400
+
+        # El resto del código permanece igual
         setup_plot()
         session = get_session_data(year, circuit, session_type)
-
-        # Get telemetry for both drivers
         telemetry_driver1 = get_fastest_lap_telemetry(session, driver1)
         telemetry_driver2 = get_fastest_lap_telemetry(session, driver2)
-
-        # Merge telemetry data
         telemetry = pd.concat([telemetry_driver1, telemetry_driver2], ignore_index=True)
-
-        # Calculate minisectors and determine the fastest driver
         telemetry = calculate_minisectors(telemetry)
         telemetry, driver_mapping = determine_fastest_driver(telemetry)
-
-        # Plot and return the image
         img = plot_fastest_lap_comparison(telemetry, session, driver_mapping)
         return send_file(img, mimetype='image/png')
 
